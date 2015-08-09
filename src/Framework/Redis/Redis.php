@@ -3,10 +3,10 @@
 namespace Framework\Redis;
 
 use Closure;
+use Framework\Config;
 use Predis\Client;
-use Framework\Redis\Support\Arr;
 
-class Database
+class Redis
 {
     /**
      * The host address of the database.
@@ -22,8 +22,8 @@ class Database
      */
     public function __construct(array $servers = [])
     {
-        $cluster = Arr::pull($servers, 'cluster');
-        $options = (array) Arr::pull($servers, 'options');
+        $cluster = Config::get('redis.cluster');
+        $options = (array) Config::get('redis.options', array());
         if ($cluster) {
             $this->clients = $this->createAggregateClient($servers, $options);
         } else {
@@ -64,7 +64,8 @@ class Database
      */
     public function connection($name = 'default')
     {
-        return Arr::get($this->clients, $name ?: 'default');
+        if ( ! isset($this) ) return self::getInstance()->clients[Config::get("redis.$name")];
+        return $this->clients[ Config::get("redis.$name") ];
     }
     /**
      * Run a command against the Redis database.
@@ -84,7 +85,6 @@ class Database
      * @param  \Closure  $callback
      * @param  string  $connection
      * @param  string  $method
-     * @return void
      */
     public function subscribe($channels, Closure $callback, $connection = null, $method = 'subscribe')
     {
@@ -103,11 +103,10 @@ class Database
      * @param  array|string  $channels
      * @param  \Closure  $callback
      * @param  string  $connection
-     * @return void
      */
     public function psubscribe($channels, Closure $callback, $connection = null)
     {
-        return $this->subscribe($channels, $callback, $connection, __FUNCTION__);
+         $this->subscribe($channels, $callback, $connection, __FUNCTION__);
     }
     /**
      * Dynamically make a Redis command.
@@ -118,6 +117,15 @@ class Database
      */
     public function __call($method, $parameters)
     {
+        if ( ! isset( $this ) ) return self::getInstance()->command($method, $parameters);
         return $this->command($method, $parameters);
+    }
+
+    private static $myself;
+
+    public static function getInstance( ) {
+        if ( self::$myself == null )
+            self::$myself = new Redis( Config::get('redis.servers') );
+        return self::$myself;
     }
 }

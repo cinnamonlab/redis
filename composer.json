@@ -2,7 +2,8 @@
   "name": "cinnamonlab/redis",
   "require": {
     "php": ">=5.5.9",
-    "predis/predis": "~1.0"
+    "predis/predis": "~1.0",
+    "cinnamonlab/framework":"dev-master"
   },
   "autoload": {
     "files": [
