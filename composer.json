@@ -6,9 +6,6 @@
     "cinnamonlab/framework":"dev-master"
   },
   "autoload": {
-    "files": [
-      "src\\Framework\\Redis\\Support\\helpers.php"
-    ],
     "psr-4": {
       "Framework\\Redis\\": ""
     }
