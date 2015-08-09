@@ -1,0 +1,16 @@
+{
+  "name": "cinnamonlab/redis",
+  "require": {
+    "php": ">=5.5.9",
+    "predis/predis": "~1.0"
+  },
+  "autoload": {
+    "files": [
+      "src\\Framework\\Redis\\Support\\helpers.php"
+    ],
+    "psr-4": {
+      "Framework\\Redis\\": ""
+    }
+  },
+  "minimum-stability": "dev"
+}
