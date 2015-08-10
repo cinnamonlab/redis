@@ -7,7 +7,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Framework\\Redis\\": ""
+      "Framework\\Redis\\": "src/Framework/Redis"
     }
   },
   "minimum-stability": "dev"
