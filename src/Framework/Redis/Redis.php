@@ -108,6 +108,11 @@ class Redis
     {
          $this->subscribe($channels, $callback, $connection, __FUNCTION__);
     }
+
+    public static function __callStatic( $method, $parameters ) {
+        return self::getInstance()->command($method, $parameters);
+    }
+
     /**
      * Dynamically make a Redis command.
      *
@@ -117,7 +122,6 @@ class Redis
      */
     public function __call($method, $parameters)
     {
-        if ( ! isset( $this ) ) return self::getInstance()->command($method, $parameters);
         return $this->command($method, $parameters);
     }
 
