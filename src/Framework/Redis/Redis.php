@@ -86,9 +86,9 @@ class Redis
      * @param  string  $connection
      * @param  string  $method
      */
-    public function subscribe($channels, Closure $callback, $connection = null, $method = 'subscribe')
+    public function subscribe($channels, Closure $callback, $connection = 'default', $method = 'subscribe')
     {
-        $loop = $this->connection($connection)->pubSubLoop();
+        $loop = $this->clients[$connection]->pubSubLoop();
         call_user_func_array([$loop, $method], (array) $channels);
         foreach ($loop as $message) {
             if ($message->kind === 'message' || $message->kind === 'pmessage') {
@@ -104,7 +104,7 @@ class Redis
      * @param  \Closure  $callback
      * @param  string  $connection
      */
-    public function psubscribe($channels, Closure $callback, $connection = null)
+    public function psubscribe($channels, Closure $callback, $connection = 'default')
     {
          $this->subscribe($channels, $callback, $connection, __FUNCTION__);
     }
@@ -124,6 +124,8 @@ class Redis
     {
         return $this->command($method, $parameters);
     }
+
+
 
     private static $myself;
 
