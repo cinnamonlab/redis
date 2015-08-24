@@ -10,14 +10,14 @@ use Predis\Client;
  * Class Redis
  * @package Framework\Redis
  *
- * @method static mixed get
- * @method static mixed set
- * @method static mixed setex
- * @method static Integer del
- * @method static pipeline
- * @method static zremrangebyscore
- * @method static zrangebyscore
- * @method static zadd
+ * @method static mixed get( string $key )
+ * @method static mixed set( string $key, mixed $value)
+ * @method static mixed setex( string $key, int $ex, mixed $value)
+ * @method static int del(string $key)
+ * @method static array pipeline(Closure $f)
+ * @method static array zremrangebyscore(string $key, $min, $max)
+ * @method static array zrangebyscore(string $key, $min, $max)
+ * @method static int zadd(string $key, $score, $value)
  */
 
 class Redis
