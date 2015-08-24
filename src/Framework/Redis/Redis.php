@@ -6,6 +6,20 @@ use Closure;
 use Framework\Config;
 use Predis\Client;
 
+/**
+ * Class Redis
+ * @package Framework\Redis
+ *
+ * @method static mixed get
+ * @method static mixed set
+ * @method static mixed setex
+ * @method static Integer del
+ * @method static pipeline
+ * @method static zremrangebyscore
+ * @method static zrangebyscore
+ * @method static zadd
+ */
+
 class Redis
 {
     /**
